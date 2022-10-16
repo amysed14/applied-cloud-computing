@@ -11,6 +11,10 @@ import os
 #websites used for api.py
 #https://www.codegrepper.com/code-examples/python/python+dict+get+random+key
 #https://stackoverflow.com/questions/5971312/how-to-set-environment-variables-in-python
+#https://twissmueller.medium.com/resolving-the-problem-of-port-5000-already-being-in-use-dd2fe4bad0be
+#https://www.geeksforgeeks.org/how-to-convert-python-dictionary-to-json/https://stackoverflow.com/questions/23902596/how-to-use-flask-jsonify-and-render-a-template-in-a-flask-route
+#https://stackoverflow.com/questions/20212894/how-do-i-get-flask-to-run-on-port-80
+
 
 app = Flask(__name__)
 
@@ -34,7 +38,7 @@ def random_meal():
     return json.dumps(meal_recommendation)
      
 if __name__ == '__main__':
-    port=os.environ.get('API_PORT', 5000)
+    port=os.environ.get('API_PORT')
     app.run(host="0.0.0.0", debug=True, port=port )
 
 
