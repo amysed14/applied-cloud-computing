@@ -1,3 +1,3 @@
-Code Lab 5
-docker-compose up
-.env file has variables needed for this lab
+Code Lab 5<br />
+docker-compose up<br />
+.env file has variables needed for this lab<br />
