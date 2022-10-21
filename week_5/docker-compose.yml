@@ -1,0 +1,72 @@
+version: '3.9'
+services:
+  api:
+    build: ./api/
+    hostname: api 
+    env_file:
+      - .env
+    environment:
+      - API_PORT=${API_PORT}
+      - API_ENDPOINT=${API_ENDPOINT}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    links:
+      - db
+    volumes:
+      - ./api/code:/app
+    ports:
+      - ${API_PORT}:${API_PORT}
+    
+  consumer:
+    build: ./consumer/
+    hostname: consumer
+    environment:
+      - API_HOST=${API_HOST}
+      - API_PORT=${API_PORT}
+      - API_ENDPOINT=${API_ENDPOINT}
+      - CONSUMER_PORT=${CONSUMER_PORT}
+    volumes:
+      - ./consumer/code:/app
+    ports:
+      - ${CONSUMER_PORT}:${CONSUMER_PORT}
+    depends_on:
+      - api
+    
+  db:
+    image: postgres:12.12
+    hostname: db
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - DB_HOST=${DB_HOST}
+      #- PGDATA=/tmp
+    env_file:
+      - .env
+    volumes: 
+      - ./db/pgdata:/var/lib/postgresql/data
+      - ./db/data/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+  db_admin:
+    image: dpage/pgadmin4
+    hostname: dba  
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGA_ADMIN_NAME}
+      - PGADMIN_DEFAULT_PASSWORD=${PGA_ADMIN_PASS}
+    volumes:
+      - ./dba/data/pgadmin_data:/var/lib/pgadmin
+      - ./dba/server.json:/pgadmin4/servers.json
+    ports:
+      - ${DBA_PORT_IN}:${DBA_PORT_OUT}
+    depends_on:
+       - db
+volumes:
+  pgdata:
+  pgadmin:
+     
+
+
