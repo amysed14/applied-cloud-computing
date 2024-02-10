@@ -1,2 +1,2 @@
 # applied-cloud-computing
-Applied Cloud Computing Assignments
+This showcase the assignments I did my for applied cloud computing class at Santa Clara University.
